@@ -1,0 +1,42 @@
+
+                                    // STATIC LINKING
+
+// add.c: file for addition function in static linking
+int add(int a, int b) {
+    return a + b;
+}
+
+main.c contains the main function that calls the add function:
+// main.c
+#include <stdio.h>
+
+// Declaration of the add function
+int add(int a, int b);
+int main() {
+    int result = add(3, 5);
+    printf("Result of addition: %d\n", result);
+    return 0;
+}
+
+
+// run these in the gcc cmd prompt after giving this command: cd/<path to your source code>
+
+gcc -c add.c -o add.o
+gcc -c main.c -o main.o
+ar rcs libadd.a add.o
+gcc main.o -L. -ladd -o static_example
+
+
+                                       // DYNAMIC LINKING
+                   
+// add_dynamic.c contains the definition of the add function:
+// add_dynamic.c
+int add(int a, int b) {
+    return a + b;
+}
+
+// case of dynamic linking 
+// similarly, run these in the gcc cmd prompt after giving this command: cd/<path to your source code>
+
+gcc -shared -fPIC add_dynamic.c -o libadd_dynamic.so
+gcc main.o -L. -ladd_dynamic -o dynamic_example
